@@ -4,11 +4,8 @@ require 'tilt/template'
 class HjsTemplate < Tilt::Template
   self.default_mime_type = 'application/javascript'
 
-  def initialize_engine
-  end
-
-  def prepare
-  end
+  def initialize_engine() end
+  def prepare() end
 
   # Generates Javascript code from a HandlebarsJS template.
   # The SC template name is derived from the lowercase logical asset path
@@ -22,5 +19,6 @@ class HjsTemplate < Tilt::Template
   end
 end
 
-Sprockets.register_engine '.hjs', HjsTemplate
 Tilt.register HjsTemplate, 'hjs'
+
+Sprockets.register_engine '.hjs', HjsTemplate
