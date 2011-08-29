@@ -4,23 +4,38 @@
 // ==========================================================================
 /*globals Todos */
 
-Todos = SC.Application.create();
-
-Todos.Todo = SC.Object.extend({
-  title: null,
-  isDone: false
+Todos = SC.Application.create({
+  store: SC.Store.create().from(SC.Record.fixtures)
 });
 
-Todos.todosController = SC.ArrayProxy.create({
+Todos.Todo = SC.Record.extend({
+  title: SC.Record.attr(String),
+  isDone: SC.Record.attr(Boolean, { defaultValue: NO })
+});
+
+Todos.Todo.FIXTURES = [
+  { "guid": "todo-1",
+    "title": "Build my first SproutCore app",
+    "isDone": false },
+  { "guid": "todo-2",
+    "title": "Build a really awesome SproutCore app",
+    "isDone": false },
+  { "guid": "todo-3",
+    "title": "Next, the world!",
+    "isDone": false }
+];
+
+Todos.todosController = SC.ArrayController.create({
   content: [],
 
   createTodo: function(title) {
-    var todo = Todos.Todo.create({ title: title });
-    this.pushObject(todo);
+    Todos.store.createRecord(Todos.Todo, { title: title });
   },
 
   clearCompletedTodos: function() {
-    this.filterProperty('isDone', true).forEach(this.removeObject, this);
+    this.filterProperty('isDone', true).forEach(function(item) {
+      item.destroy();
+    });
   },
 
   remaining: function() {
@@ -56,4 +71,9 @@ Todos.CreateTodoView = SC.TextField.extend({
       this.set('value', '');
     }
   }
+});
+
+SC.$(document).ready(function () {
+  var todos = Todos.store.find(Todos.Todo);
+  Todos.todosController.set('content', todos);
 });
