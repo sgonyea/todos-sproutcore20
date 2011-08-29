@@ -10,4 +10,3 @@
 //= require sproutcore-datastore
 //= require sproutcore-statechart
 //= require_tree ./ui
-//= require_tree ./templates
