@@ -9,8 +9,6 @@ require "sprockets/railtie"
 
 Bundler.require(:default, :assets, Rails.env)
 
-require Bundler.root.join('lib/hjs_template')
-
 module Todos
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
