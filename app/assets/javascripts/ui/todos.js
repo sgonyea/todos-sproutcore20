@@ -73,7 +73,7 @@ Todos.CreateTodoView = SC.TextField.extend({
   }
 });
 
-SC.$(document).ready(function () {
+$(document).ready(function () {
   var todos = Todos.store.find(Todos.Todo);
   Todos.todosController.set('content', todos);
 });
