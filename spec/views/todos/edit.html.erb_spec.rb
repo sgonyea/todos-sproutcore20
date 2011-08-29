@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "homes/edit.html.erb" do
+describe "todos/edit.html.erb" do
   before(:each) do
     @home = assign(:home, stub_model(Home))
   end
@@ -9,7 +9,7 @@ describe "homes/edit.html.erb" do
     render
 
     # Run the generator again with the --webrat flag if you want to use webrat matchers
-    assert_select "form", :action => homes_path(@home), :method => "post" do
+    assert_select "form", :action => todos_path(@home), :method => "post" do
     end
   end
 end

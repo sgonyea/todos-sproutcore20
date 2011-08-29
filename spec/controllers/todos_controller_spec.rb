@@ -18,7 +18,7 @@ require 'spec_helper'
 # Message expectations are only used when there is no simpler way to specify
 # that an instance is receiving a specific message.
 
-describe HomesController do
+describe TodosController do
 
   # This should return the minimal set of attributes required to create a valid
   # Home. As you add validations to Home, be sure to
@@ -28,10 +28,10 @@ describe HomesController do
   end
 
   describe "GET index" do
-    it "assigns all homes as @homes" do
+    it "assigns all todos as @todos" do
       home = Home.create! valid_attributes
       get :index
-      assigns(:homes).should eq([home])
+      assigns(:todos).should eq([home])
     end
   end
 
@@ -99,7 +99,7 @@ describe HomesController do
     describe "with valid params" do
       it "updates the requested home" do
         home = Home.create! valid_attributes
-        # Assuming there are no other homes in the database, this
+        # Assuming there are no other todos in the database, this
         # specifies that the Home created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
@@ -147,10 +147,10 @@ describe HomesController do
       }.to change(Home, :count).by(-1)
     end
 
-    it "redirects to the homes list" do
+    it "redirects to the todos list" do
       home = Home.create! valid_attributes
       delete :destroy, :id => home.id.to_s
-      response.should redirect_to(homes_url)
+      response.should redirect_to(todos_url)
     end
   end
 

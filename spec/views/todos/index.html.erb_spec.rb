@@ -1,14 +1,14 @@
 require 'spec_helper'
 
-describe "homes/index.html.erb" do
+describe "todos/index.html.erb" do
   before(:each) do
-    assign(:homes, [
+    assign(:todos, [
       stub_model(Home),
       stub_model(Home)
     ])
   end
 
-  it "renders a list of homes" do
+  it "renders a list of todos" do
     render
   end
 end

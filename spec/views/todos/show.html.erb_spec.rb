@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "homes/show.html.erb" do
+describe "todos/show.html.erb" do
   before(:each) do
     @home = assign(:home, stub_model(Home))
   end
