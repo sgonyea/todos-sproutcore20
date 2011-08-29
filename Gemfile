@@ -16,3 +16,24 @@ group :assets do
 
   gem 'uglifier'
 end
+
+# gem 'unicorn'
+# 
+# group :deploy do
+#   gem 'capistrano'
+# end
+# 
+# group :test, :development do
+#   gem 'spork',        '~>0.9.0.rc9'
+#   gem 'rspec',        '~>2.6.0'
+#   gem 'rspec-rails',  '~>2.6.1'
+#   gem 'jsonpath'
+# 
+#   gem 'factory_girl'
+# 
+#   gem 'cucumber', '~> 1.0.0'
+#   gem 'cucumber-rails', '~> 1.0.2'
+# 
+#   gem 'ruby-debug19', :require => 'ruby-debug', :platforms => [:mri_19]
+#   gem 'ruby-debug',   :require => 'ruby-debug', :platforms => [:mri_18]
+# end
