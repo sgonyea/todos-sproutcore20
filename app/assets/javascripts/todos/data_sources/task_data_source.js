@@ -110,8 +110,6 @@ Todos.TaskDataSource = SC.DataSource.extend(
       $.ajax({
         type: 'DELETE',
         url:  url,
-        contentType: 'application/json',
-        dataType: 'json',
         success: function(data, textStatus) {
           store.dataSourceDidDestroy(storeKey);
         },
