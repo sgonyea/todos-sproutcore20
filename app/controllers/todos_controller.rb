@@ -21,22 +21,6 @@ class TodosController < ApplicationController
     end
   end
 
-  # GET /todos/new
-  # GET /todos/new.json
-  def new
-    @todo = Todo.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @todo }
-    end
-  end
-
-  # GET /todos/1/edit
-  def edit
-    @todo = Todo.find(params[:id])
-  end
-
   # POST /todos
   # POST /todos.json
   def create
@@ -73,7 +57,7 @@ class TodosController < ApplicationController
   # DELETE /todos/1.json
   def destroy
     @todo = Todo.find(params[:id])
-    @todo.destroy
+    @todo.update_attribute(:is_cleared, true)
 
     respond_to do |format|
       format.html { redirect_to todos_url }
