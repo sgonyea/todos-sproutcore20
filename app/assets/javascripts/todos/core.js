@@ -8,6 +8,12 @@
 //= require_tree ./views
 
 $(document).ready(function () {
+  $.ajaxSetup({
+    cache: false,
+    dataType: 'json',
+    processData: false
+  });
+
   var todos = Todos.store.find(Todos.Todo);
   Todos.todosController.set('content', todos);
 });
