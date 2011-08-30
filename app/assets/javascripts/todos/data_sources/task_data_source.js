@@ -17,8 +17,6 @@ Todos.TaskDataSource = SC.DataSource.extend(
   // QUERY SUPPORT
   //
   fetch: function(store, query) {
-    self = this;
-
     $.ajax({
       type: 'GET',
       url:  '/todos.json',
@@ -41,8 +39,28 @@ Todos.TaskDataSource = SC.DataSource.extend(
   // ..........................................................
   // RECORD SUPPORT
   //
+  createRecord: function(store, storeKey) {
+    if(store.recordTypeFor(storeKey) === Todos.Todo) {
+      $.ajax({
+        type: 'POST',
+        url:  '/todos.json',
+        data: JSON.stringify({todo: store.readDataHash(storeKey)}),
+        contentType: 'application/json',
+        dataType: 'json',
+        success: function(data, textStatus) {
+          store.dataSourceDidComplete(storeKey, data, url);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          store.dataSourceDidError(storeKey);
+        }
+      })
+
+      return YES;
+    } else return NO;
+  },
+
   retrieveRecord: function(store, storeKey) {
-    if (SC.kindOf(store.recordTypeFor(storeKey), Todos.Todo)) {
+    if(store.recordTypeFor(storeKey) === Todos.Todo) {
 
       todo  = store.readDataHash(storeKey);
       url   = '/todos/' + todo.id + '.json';
@@ -60,37 +78,11 @@ Todos.TaskDataSource = SC.DataSource.extend(
       })
 
       return YES;
-    } else
-      return NO;
-  },
-
-  createRecord: function(store, storeKey) {
-    if(store.recordTypeFor(storeKey) === Todos.Todo) {
-      self = this;
-
-      $.ajax({
-        type: 'POST',
-        url:  '/todos.json',
-        data: JSON.stringify({todo: store.readDataHash(storeKey)}),
-        contentType: 'application/json',
-        dataType: 'json',
-        success: function(data, textStatus) {
-          store.dataSourceDidComplete(storeKey, data, url);
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-          store.dataSourceDidError(storeKey);
-        }
-      })
-
-      return YES;
-
     } else return NO;
   },
 
   updateRecord: function(store, storeKey) {
     if(store.recordTypeFor(storeKey) === Todos.Todo) {
-      self = this;
-
       todo  = store.readDataHash(storeKey);
       url   = '/todos/' + todo.id + '.json';
 
@@ -113,8 +105,6 @@ Todos.TaskDataSource = SC.DataSource.extend(
 
   destroyRecord: function(store, storeKey) {
     if(store.recordTypeFor(storeKey) === Todos.Todo) {
-      self = this;
-
       url = '/todos/' + store.idFor(storeKey) + '.json';
 
       $.ajax({
