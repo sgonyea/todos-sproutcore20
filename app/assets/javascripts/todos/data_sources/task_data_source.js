@@ -24,25 +24,18 @@ Todos.TaskDataSource = SC.DataSource.extend(
       url:  '/todos.json',
       dataType: 'json',
       success: function(data, textStatus) {
-        self.didFetchTasks(data, textStatus, store, query);
+        var storeKeys = store.loadRecords(Todos.Todo, data);
+
+        if(query.location == "remote") {
+          store.loadQueryResults(query, storeKeys);
+        }
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        store.dataSourceDidErrorQuery(query, data);
       }
     });
 
     return YES;
-  },
-
-  didFetchTasks: function(data, textStatus, store, query) {
-    console.log(data);
-
-    if (textStatus == "success") {
-      var storeKeys = store.loadRecords(Todos.Todo, data);
-
-      if(query.location == "remote") {
-        store.loadQueryResults(query, storeKeys);
-      }
-    } else {
-      store.dataSourceDidErrorQuery(query, data);
-    }
   },
 
   // ..........................................................
@@ -59,20 +52,16 @@ Todos.TaskDataSource = SC.DataSource.extend(
         url:  url,
         dataType: 'json',
         success: function(data, textStatus) {
-          self.didRetrieveTask(data, textStatus, store, storeKey);
+          store.dataSourceDidComplete(storeKey, data);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          store.dataSourceDidError(storeKey);
         }
       })
 
       return YES;
     } else
       return NO;
-  },
-
-  didRetrieveTask: function(data, textStatus, store, storeKey) {
-    if (textStatus == "success") {
-      store.dataSourceDidComplete(storeKey, data);
-
-    } else store.dataSourceDidError(storeKey, response);
   },
 
   createRecord: function(store, storeKey) {
@@ -86,20 +75,16 @@ Todos.TaskDataSource = SC.DataSource.extend(
         contentType: 'application/json',
         dataType: 'json',
         success: function(data, textStatus) {
-          self.didCreateTodo(data, textStatus, store, storeKey, '/todos.json');
+          store.dataSourceDidComplete(storeKey, data, url);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          store.dataSourceDidError(storeKey);
         }
       })
 
       return YES;
 
     } else return NO;
-  },
-
-  didCreateTodo: function(data, textStatus, store, storeKey, url) {
-    if (textStatus == "success") {
-      store.dataSourceDidComplete(storeKey, null, url); // update url
-
-    } else store.dataSourceDidError(storeKey, response);
   },
 
   updateRecord: function(store, storeKey) {
@@ -114,20 +99,16 @@ Todos.TaskDataSource = SC.DataSource.extend(
         url:  url,
         data: JSON.stringify({todo: todo}),
         contentType: 'application/json',
-        dataType: 'json',
         success: function(data, textStatus) {
-          self.didUpdateTask(data, textStatus, store, storeKey);
+          store.dataSourceDidComplete(storeKey, data);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          store.dataSourceDidError(storeKey);
         }
       })
 
       return YES;
     } else return NO;
-  },
-
-  didUpdateTask: function(data, textStatus, store, storeKey) {
-    if (textStatus == "success") {
-      store.dataSourceDidComplete(storeKey, data);
-    } else store.dataSourceDidError(storeKey);
   },
 
   destroyRecord: function(store, storeKey) {
@@ -142,18 +123,14 @@ Todos.TaskDataSource = SC.DataSource.extend(
         contentType: 'application/json',
         dataType: 'json',
         success: function(data, textStatus) {
-          self.didDestroyTask(data, textStatus, store, storeKey);
+          store.dataSourceDidDestroy(storeKey);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          store.dataSourceDidError(storeKey);
         }
       })
 
       return YES;
     } else return NO;
   },
-
-  didDestroyTask: function(data, textStatus, store, storeKey) {
-    if (textStatus == "success") {
-      store.dataSourceDidDestroy(storeKey);
-    } else store.dataSourceDidError(response);
-  }
-
-}) ;
+});
