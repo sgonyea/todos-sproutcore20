@@ -4,6 +4,7 @@
 // ==========================================================================
 //= require_tree ./applications
 //= require_tree ./models
+//= require_tree ./data_sources
 //= require_tree ./controllers
 //= require_tree ./views
 
