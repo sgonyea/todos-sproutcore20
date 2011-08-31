@@ -18,8 +18,8 @@ Todos.TaskDataSource = SC.DataSource.extend(
   //
   fetch: function(store, query) {
     $.ajax({
-      type: 'GET',
-      url:  '/todos.json',
+      type:     'GET',
+      url:      '/todos.json',
       dataType: 'json',
       success: function(data, textStatus) {
         var storeKeys = store.loadRecords(Todos.Todo, data);
